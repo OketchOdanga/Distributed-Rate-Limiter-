@@ -1,0 +1,15 @@
+services:
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - RATE_LIMIT=10
+      - RATE_WINDOW=10
+      - REDIS_ADDR=redis:6379
+    depends_on:
+      - redisw
