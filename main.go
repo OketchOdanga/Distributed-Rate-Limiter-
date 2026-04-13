@@ -75,7 +75,7 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 	windowElapsed := now % int64(WINDOW)
 	weight := float64(WINDOW-int(windowElapsed)) / float64(WINDOW)
 	
-	log.Printf("🔍 [%s] now=%d, currWin=%d, prevWin=%d, elapsed=%d, weight=%.2f", 
+	log.Printf("[%s] now=%d, currWin=%d, prevWin=%d, elapsed=%d, weight=%.2f", 
 		userID, now, currentWindow, prevWindow, windowElapsed, weight)
 
 	// Execute Lua Script
@@ -87,7 +87,7 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("✅ [%s] Lua result: %v (type: %T)", userID, result, result)
+	log.Printf("[%s] Lua result: %v (type: %T)", userID, result, result)
 
 	if result == int64(1) {
 		log.Printf("✓ [%s] ALLOWED", userID)
@@ -106,6 +106,6 @@ func main() {
     })
 
 	port := getEnv("PORT", "8080")
-	fmt.Printf("🚀 Server starting on port %s (Limit: %d reqs / %d sec)\n", port, LIMIT, WINDOW)
+	fmt.Printf("Server starting on port %s (Limit: %d reqs / %d sec)\n", port, LIMIT, WINDOW)
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
